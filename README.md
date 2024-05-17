@@ -1,8 +1,6 @@
-# m2simulation
+# M2simulation
 
-# Utilizar versão apache/karaf:4.4.4 do docker hub
-
-Ete documento descreve os passos necessário para baixar a imagem docker do apache Karaf 4.4.4, criar um conteiner baseado na imagem e realizar a configuração básica para acesso ao console do karaf via terminal e ao webconsole via browser. Para isso é necessário executar os comandos a seguir na ordem apresentada.
+Este documento descreve os passos necessário para baixar a imagem docker do apache Karaf 4.4.4, criar um conteiner baseado na imagem e realizar a configuração básica para acesso ao console do karaf via terminal e ao webconsole via browser. Para isso é necessário executar os comandos a seguir na ordem apresentada.
 
 ## Baixando imagem
 
