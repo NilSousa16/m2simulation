@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  sc-infra:
+    image: karaf
+    container_name: karaf-container
+    ports:
+      - "8181:8181"
+    restart: unless-stopped
