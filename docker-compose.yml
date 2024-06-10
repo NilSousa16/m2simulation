@@ -1,16 +1,50 @@
 version: '3'
 
 services:
-  karaf:
+  device:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.device
     ports:
-      - "8101:8101"
-      - "8181:8181"
-      - "44444:44444"
+      - "8102:8101"
+      - "8182:8181"
+      - "44445:44444"
     volumes:
-      - ./data:/opt/karaf/data
+      - ./data/device:/opt/karaf/data
     environment:
       KARAF_VERSION: "4.4.4"
       KARAF_HOME: /opt/karaf
+
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+    ports:
+      - "8103:8101"
+      - "8183:8181"
+      - "44446:44444"
+    volumes:
+      - ./data/gateway:/opt/karaf/data
+    environment:
+      KARAF_VERSION: "4.4.4"
+      KARAF_HOME: /opt/karaf
+
+  
+
+
+# version: '3'
+
+# services:
+#   karaf:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8101:8101"
+#       - "8181:8181"
+#       - "44444:44444"
+#     volumes:
+#       - ./data:/opt/karaf/data
+#     environment:
+#       KARAF_VERSION: "4.4.4"
+#       KARAF_HOME: /opt/karaf

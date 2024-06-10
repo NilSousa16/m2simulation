@@ -16,6 +16,13 @@ install_features() {
     /opt/karaf/bin/client feature:install webconsole
 }
 
+# Função para instalar o bundle
+install_bundle() {
+    echo "Instalando o bundle local..."
+    /opt/karaf/bin/client bundle:install file:/opt/karaf/deploy/m2model-1.0.0.jar
+    /opt/karaf/bin/client bundle:start file:/opt/karaf/deploy/m2model-1.0.0.jar
+}
+
 # Função para parar o Karaf
 stop_karaf() {
     echo "Parando Apache Karaf..."
@@ -32,5 +39,6 @@ else
     trap stop_karaf SIGTERM SIGINT
     start_karaf
     # install_features
+    install_bundle
     wait
 fi

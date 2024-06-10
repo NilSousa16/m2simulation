@@ -24,13 +24,16 @@ RUN echo "Executando comandos para configuração do usuário padrão..." && \
 
 # Executa a instalação do http e webconsole (manter a formatação das configurações)
 RUN echo "Executando comandos para instalação das features http e webconsole..." && \
-    sed -i 's/kar\/4.4.4/&\, \\\n    http, \\\n    webconsole/' ${KARAF_HOME}/etc/org.apache.karaf.features.cfg
+    sed -i 's/kar\/4.4.4/&\, \\\n    http, \\\n    webconsole, \\\n    scr, \\\n    transaction, \\\n    jndi, \\\n    pax-jdbc-h2, \\\n    pax-jdbc-config, \\\n    pax-jdbc-pool-dbcp2, \\\n    jpa, \\\n    hibernate/' ${KARAF_HOME}/etc/org.apache.karaf.features.cfg
 
 # Copiar o script de inicialização para dentro do contêiner
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY docker-entrypoint-gateway.sh /usr/local/bin/
 
 # Definir permissão de execução para o script de entrada
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint-gateway.sh
+
+# Copiar o bundle para o contêiner
+COPY m2model-1.0.0.jar ${KARAF_HOME}/deploy/
 
 # Definir o diretório de trabalho
 WORKDIR ${KARAF_HOME}
@@ -39,4 +42,4 @@ WORKDIR ${KARAF_HOME}
 EXPOSE 8101 8181 44444
 
 # Definir o ponto de entrada
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["docker-entrypoint-gateway.sh"]
