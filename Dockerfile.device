@@ -1,45 +1,45 @@
-# Usar uma imagem base do OpenJDK
+# Use an OpenJDK base image
 FROM openjdk:11-jre-slim
 
-# Definir variáveis de ambiente
+# Set environment variables
 ENV KARAF_VERSION=4.4.4
 ENV KARAF_HOME=/opt/karaf
 
-# Instalar dependências necessárias
+# Install required dependencies
 RUN apt-get update && \
     apt-get install -y wget && \
     apt-get clean
 
-# Baixar e instalar Apache Karaf
-RUN echo "Executando comandos de instalação e configuração do karaf..." && \
+# Download and install Apache Karaf
+RUN echo "Running karaf installation and configuration commands..." && \
     wget https://archive.apache.org/dist/karaf/${KARAF_VERSION}/apache-karaf-${KARAF_VERSION}.tar.gz -O /tmp/karaf.tar.gz && \
     mkdir -p ${KARAF_HOME} && \
     tar -xzf /tmp/karaf.tar.gz -C ${KARAF_HOME} --strip-components=1 && \
     rm /tmp/karaf.tar.gz
 
-# Executar comandos adicionais uma vez durante a construção
-RUN echo "Executando comandos para configuração do usuário padrão..." && \
+# Run additional commands once during build
+RUN echo "Executing commands to configure the default user..." && \
     sed -i 's/^#karaf = karaf,_g_:admingroup/karaf = karaf,_g_:admingroup/' /opt/karaf/etc/users.properties && \
     sed -i 's/^#_g_\\:admingroup = group,admin,manager,viewer,systembundles,ssh/_g_\\:admingroup = group,admin,manager,viewer,systembundles,ssh/' ${KARAF_HOME}/etc/users.properties
 
-# Executa a instalação do http e webconsole (manter a formatação das configurações)
-RUN echo "Executando comandos para instalação das features http e webconsole..." && \
+# Runs http and webconsole installation (maintains configuration formatting)
+RUN echo "Executing commands to install the http and webconsole features..." && \
     sed -i 's/kar\/4.4.4/&\, \\\n    http, \\\n    webconsole, \\\n    scr, \\\n    transaction, \\\n    jndi, \\\n    pax-jdbc-h2, \\\n    pax-jdbc-config, \\\n    pax-jdbc-pool-dbcp2, \\\n    jpa/' ${KARAF_HOME}/etc/org.apache.karaf.features.cfg
 
-# Copiar o script de inicialização para dentro do contêiner
+# Copy the init script into the container
 COPY docker-entrypoint-device.sh /usr/local/bin/
 
-# Definir permissão de execução para o script de entrada
+# Set execute permission for entry script
 RUN chmod +x /usr/local/bin/docker-entrypoint-device.sh
 
-# Copiar o bundle para o contêiner
+# Copy the bundle to the container
 COPY m2model-1.0.0.jar ${KARAF_HOME}/deploy/
 
-# Definir o diretório de trabalho
+# Set the working directory
 WORKDIR ${KARAF_HOME}
 
-# Expor as portas necessárias
+# Expose the necessary ports
 EXPOSE 8101 8181 44444
 
-# Definir o ponto de entrada
+# Set the entry point
 ENTRYPOINT ["docker-entrypoint-device.sh"]

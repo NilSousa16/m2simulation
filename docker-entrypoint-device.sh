@@ -1,41 +1,50 @@
 #!/bin/bash
 
-# Função para iniciar o Karaf
+# Function to start Karaf
 start_karaf() {
-    echo "Iniciando Apache Karaf..."
+    echo "Starting Apache Karaf..."
     /opt/karaf/bin/karaf server &
     KARAF_PID=$!
 }
 
-# Função para instalar features
+# Function to install features
 install_features() {
-    echo "Instalando features http e webconsole..."
-    # Espera o Karaf iniciar antes de instalar as features
+    echo "Installing http and webconsole features..."
+    # Wait for Karaf to start before installing the features
     sleep 30
     /opt/karaf/bin/client feature:install http
     /opt/karaf/bin/client feature:install webconsole
 }
 
-# Função para instalar o bundle
+# Function to install the bundle
 install_bundle() {
-    echo "Instalando o bundle local..."
+    echo "Installing the local bundle..."
+    # Bundle with the models used in the solution
     /opt/karaf/bin/client bundle:install file:/opt/karaf/deploy/m2model-1.0.0.jar
     /opt/karaf/bin/client bundle:start file:/opt/karaf/deploy/m2model-1.0.0.jar
+
+    # Bundle requested by m2mqtt
+    /opt/karaf/bin/client bundle:install mvn:org.apache.aries.blueprint/org.apache.aries.blueprint.core/1.10.3
+    /opt/karaf/bin/client bundle:start mvn:org.apache.aries.blueprint/org.apache.aries.blueprint.core/1.10.3
+
+    # Bundle requested by m2mqtt
+    /opt/karaf/bin/client bundle:install mvn:org.eclipse.paho/org.eclipse.paho.client.mqttv3/1.2.0
+    /opt/karaf/bin/client bundle:start mvn:org.eclipse.paho/org.eclipse.paho.client.mqttv3/1.2.0
 }
 
-# Função para parar o Karaf
+# Function to stop Karaf
 stop_karaf() {
-    echo "Parando Apache Karaf..."
+    echo "Stopping Apache Karaf..."
     kill -SIGTERM $KARAF_PID
     wait $KARAF_PID
 }
 
-# Verificar se o comando foi passado para o contêiner
+# Check if the command was passed to the container
 if [ "$#" -gt 0 ]; then
-    # Se o comando for passado, executá-lo
+    # If the command is passed, execute it
     exec "$@"
 else
-    # Se nenhum comando foi passado, iniciar o Karaf e instalar as features
+    # If no command was passed, start Karaf and install the features
     trap stop_karaf SIGTERM SIGINT
     start_karaf
     # install_features
