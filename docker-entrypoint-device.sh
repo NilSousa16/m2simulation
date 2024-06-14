@@ -30,6 +30,9 @@ install_bundle() {
     # Bundle requested by m2mqtt
     /opt/karaf/bin/client bundle:install mvn:org.eclipse.paho/org.eclipse.paho.client.mqttv3/1.2.0
     /opt/karaf/bin/client bundle:start mvn:org.eclipse.paho/org.eclipse.paho.client.mqttv3/1.2.0
+
+    # Bundle required by m2mqtt for json conversion
+    /opt/karaf/bin/client bundle:install mvn:com.google.code.gson/gson/2.11.0
 }
 
 # Function to stop Karaf

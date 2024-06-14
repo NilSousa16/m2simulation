@@ -29,22 +29,11 @@ services:
       KARAF_VERSION: "4.4.4"
       KARAF_HOME: /opt/karaf
 
-  
-
-
-# version: '3'
-
-# services:
-#   karaf:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile
-#     ports:
-#       - "8101:8101"
-#       - "8181:8181"
-#       - "44444:44444"
-#     volumes:
-#       - ./data:/opt/karaf/data
-#     environment:
-#       KARAF_VERSION: "4.4.4"
-#       KARAF_HOME: /opt/karaf
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - /home/labes2/repositories/wiser/infra/m2simulation/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf

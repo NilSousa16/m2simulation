@@ -33,7 +33,7 @@ COPY docker-entrypoint-gateway.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint-gateway.sh
 
 # Copy the bundle to the container
-COPY m2model-1.0.0.jar ${KARAF_HOME}/deploy/
+COPY bundles/m2model-1.0.0.jar ${KARAF_HOME}/deploy/
 
 # Set the working directory
 WORKDIR ${KARAF_HOME}
