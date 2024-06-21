@@ -33,6 +33,10 @@ install_bundle() {
 
     # Bundle required by m2mqtt for json conversion
     /opt/karaf/bin/client bundle:install mvn:com.google.code.gson/gson/2.11.0
+
+    # Bundle for mqtt communication
+    /opt/karaf/bin/client bundle:install file:/opt/karaf/deploy/m2mqtt-1.0.0.jar
+    /opt/karaf/bin/client bundle:start file:/opt/karaf/deploy/m2mqtt-1.0.0.jar
 }
 
 # Function to stop Karaf

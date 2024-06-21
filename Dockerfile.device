@@ -34,6 +34,7 @@ RUN chmod +x /usr/local/bin/docker-entrypoint-device.sh
 
 # Copy the bundle to the container
 COPY bundles/m2model-1.0.0.jar ${KARAF_HOME}/deploy/
+COPY bundles/m2mqtt-1.0.0.jar ${KARAF_HOME}/deploy/
 
 # Set the working directory
 WORKDIR ${KARAF_HOME}
