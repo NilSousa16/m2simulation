@@ -21,6 +21,26 @@ install_bundle() {
     echo "Installing the local bundle..."
     /opt/karaf/bin/client bundle:install file:/opt/karaf/deploy/m2model-1.0.0.jar
     /opt/karaf/bin/client bundle:start file:/opt/karaf/deploy/m2model-1.0.0.jar
+
+    # Bundle requested by m2mqtt
+    /opt/karaf/bin/client bundle:install mvn:org.apache.aries.blueprint/org.apache.aries.blueprint.core/1.10.3
+    /opt/karaf/bin/client bundle:start mvn:org.apache.aries.blueprint/org.apache.aries.blueprint.core/1.10.3
+
+    # Bundle requested by mqtt communication
+    /opt/karaf/bin/client bundle:install mvn:org.eclipse.paho/org.eclipse.paho.client.mqttv3/1.2.0
+    /opt/karaf/bin/client bundle:start mvn:org.eclipse.paho/org.eclipse.paho.client.mqttv3/1.2.0
+
+    # Bundle required for json conversion
+    /opt/karaf/bin/client bundle:install mvn:com.google.code.gson/gson/2.11.0
+    /opt/karaf/bin/client bundle:start mvn:com.google.code.gson/gson/2.11.0
+
+    # Bundle for gateways simulation
+    /opt/karaf/bin/client bundle:install file:/opt/karaf/deploy/m2client-1.0.0.jar
+    /opt/karaf/bin/client bundle:start file:/opt/karaf/deploy/m2client-1.0.0.jar
+
+    # Bundle required for m2client
+    /opt/karaf/bin/client bundle:install mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-httpclient/3.1_7
+    /opt/karaf/bin/client bundle:start mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-httpclient/3.1_7
 }
 
 # Function to stop Karaf

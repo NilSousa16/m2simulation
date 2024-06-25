@@ -9,6 +9,9 @@ services:
       - "8102:8101"
       - "8182:8181"
       - "44445:44444"
+    depends_on:
+      - mosquitto
+      - gateway
     volumes:
       - ./data/device:/opt/karaf/data
     environment:
@@ -23,6 +26,8 @@ services:
       - "8103:8101"
       - "8183:8181"
       - "44446:44444"
+    depends_on:
+      - mosquitto
     volumes:
       - ./data/gateway:/opt/karaf/data
     environment:
